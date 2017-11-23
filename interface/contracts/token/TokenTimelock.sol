@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.18;
 
 
 import './ERC20Basic.sol';
@@ -26,15 +26,6 @@ contract TokenTimelock {
     token = _token;
     beneficiary = _beneficiary;
     releaseTime = _releaseTime;
-  }
-
-  /**
-   * @notice Transfers tokens held by timelock to beneficiary.
-   * Deprecated: please use TokenTimelock#release instead.
-   */
-  function claim() public {
-    require(msg.sender == beneficiary);
-    release();
   }
 
   /**

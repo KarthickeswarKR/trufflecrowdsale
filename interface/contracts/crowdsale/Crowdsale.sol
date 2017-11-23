@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.18;
 
 import '../token/MintableToken.sol';
 import '../math/SafeMath.sol';
@@ -44,7 +44,7 @@ contract Crowdsale {
     require(_startTime >= now);
     require(_endTime >= _startTime);
     require(_rate > 0);
-    require(_wallet != 0x0);
+    require(_wallet != address(0));
 
     token = createTokenContract();
     startTime = _startTime;
@@ -67,7 +67,7 @@ contract Crowdsale {
 
   // low level token purchase function
   function buyTokens(address beneficiary) public payable {
-    require(beneficiary != 0x0);
+    require(beneficiary != address(0));
     require(validPurchase());
 
     uint256 weiAmount = msg.value;
@@ -91,14 +91,14 @@ contract Crowdsale {
   }
 
   // @return true if the transaction can buy tokens
-  function validPurchase() internal constant returns (bool) {
+  function validPurchase() internal view returns (bool) {
     bool withinPeriod = now >= startTime && now <= endTime;
     bool nonZeroPurchase = msg.value != 0;
     return withinPeriod && nonZeroPurchase;
   }
 
   // @return true if crowdsale event has ended
-  function hasEnded() public constant returns (bool) {
+  function hasEnded() public view returns (bool) {
     return now > endTime;
   }
 
